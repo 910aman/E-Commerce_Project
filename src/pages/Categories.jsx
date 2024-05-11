@@ -61,7 +61,7 @@ const Categories = () => {
 
   return (
     <>
-      <div className="bg-gray-100 mx-auto px-6 text-xs cursor-pointer gap-x-1 gap-y-1 overflow-auto grid grid-cols-2 2xl:grid-cols-11 xl:grid-cols-8 lg:grid-cols-7 sm:grid-cols-4 md:grid-cols-5 py-2">
+      <div className="bg-gray-100 mx-auto px-6 text-xs cursor-pointer gap-x-1 gap-y-1 overflow-auto grid grid-cols-2 2xl:grid-cols-10 xl:grid-cols-8 lg:grid-cols-7 sm:grid-cols-4 md:grid-cols-5 py-2">
         <button onClick={AllProducts} className={`w-fit group-active:bg-gray-300 whitespace-nowrap group relative rounded-md px-2 py-0.5 items-center text-sm font-semibold text-black bg-gray-300 hover:bg-gray-400 ${selectedFilters.length === 0 ? 'bg-gray-400' : ''}`}>
           All Categories
         </button>

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import axios from 'axios'
 import { ADD_PRODUCT_TO_CART, ADD_PRODUCT_WITH_TEXT_CART, ADD_REGISTER_WITH_USER, DELETE_PRODUCT_WITH_TEXT_CART, GET_ALL_CATEGORIES, GET_LOGIN_WITH_USER, GET_PRODUCT_BY_CATEGORY, GET_PRODUCTS_ON_CATEGORY, GET_SINGLE_PRODUCT, UPDATE_PRODUCT_WITH_TEXT_CART } from '../Redux/ActionType'
 import { Cookies } from 'react-cookie';
@@ -63,7 +64,7 @@ export const addProductToCart = (products) => {
 
 export const getProductByCategory = () => {
     return (dispatch) => {
-        axios.get(`${BASE_URL}/products/categories`)
+        axios.get(`${BASE_URL}/products/category-list`)
             .then((response) => {
                 dispatch({
                     type: GET_PRODUCT_BY_CATEGORY,

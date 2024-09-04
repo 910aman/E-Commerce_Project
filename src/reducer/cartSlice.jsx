@@ -1,13 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const fetchFromLocalStorage = () => {
+    let cart = localStorage.getItem('cart');
+    if(cart){
+        return JSON.parse(localStorage.getItem('cart'));
+    } else {
+        return [];
+    }
+}
+
 const storeInLocalStorage = (data) => {
-  localStorage.setItem("cart", JSON.stringify(data));
-};
+    localStorage.setItem('cart', JSON.stringify(data));
+}
+
 
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
     data: [],
+    carts: fetchFromLocalStorage(),
     totalItems: 0,
     totalAmount: 0,
     deliverCharge: 10,
@@ -23,15 +34,17 @@ const cartSlice = createSlice({
           if (product.id === action.payload.id) {
             let newQty = product.quantity + action.payload.quantity;
             let newTotalPrice = newQty * product.price;
+            let orginalPrice = ((newTotalPrice) - (newTotalPrice * (product?.discountPercentage / 100)));
+
             return {
               ...product,
               quantity: newQty,
-              totalPrice: newTotalPrice,
+              totalPrice: orginalPrice,
             };
           } else {
             return product;
           }
-        });   
+        });
 
         state.data = tempCart;
         storeInLocalStorage(state.data);
@@ -48,16 +61,16 @@ const cartSlice = createSlice({
       if (productToUpdate) {
         const validQuantity = Math.max(quantity || 1, 1);
         productToUpdate.quantity = validQuantity;
-        productToUpdate.totalPrice = productToUpdate.price * validQuantity; // Update totalPrice based on the new quantity
+        productToUpdate.totalPrice = productToUpdate.price * validQuantity;
       }
     },
     getCartTotal(state) {
       state.totalAmount = state.data.reduce((cartTotal, cartItem) => {
-        return (cartTotal += cartItem.totalPrice);
+        // ((item?.price) - (item?.price * (item?.discountPercentage / 100))).toFixed(2)
+        return ((cartTotal += cartItem.totalPrice) - cartItem?.price * (cartItem?.discountPercentage / 100) );
       }, 0);
       state.totalItems = state.data.length;
       storeInLocalStorage(state.data);
-
     },
     removeItem(state, action) {
       const tempCart = state.data.filter(
@@ -66,7 +79,7 @@ const cartSlice = createSlice({
       state.data = tempCart;
       storeInLocalStorage(state.data);
     },
-    
+
   },
 });
 

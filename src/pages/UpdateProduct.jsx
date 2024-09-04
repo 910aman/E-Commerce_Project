@@ -24,24 +24,22 @@ const UpdateProduct = ({ product }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(updateProductswithTextCategory(product.id, [updateData]));
-    // console.log("Log Updated Data", updateProducts, "Updated State ", updateData);
+    console.log("Updated State ", updateData);
   };
 
   const handleOnDelete = () => {
     dispatch(deleteProductswithTextCategory(product?.id))
     setDeletedState(true)
-    // console.log("Deleted State", deletedState, deletedProduct)
+    console.log("Deleted State", deletedState, deletedProduct)
   }
   return (
     <div className="w-auto">
       <div key={updateData?.id} className="flex relative px-4  py-5  bg-gray-100 ">
-
         <div className="aspect-h-1 aspect-w-1 py-3  w-[40%] overflow-hidden  lg:aspect-none group-hover:opacity-75  md:h-[420px]">
           <img alt={updateData?.category}
             src={updateData?.thumbnail}
             className="h-full w-full rounded-2xl object-cover object-center  lg:h-full lg:w-full" />
         </div>
-
         <form className="flex justify-center w-auto" onSubmit={handleSubmit}>
           <div className="">
             <input type="text" className="hidden" value={updateData?.id} id="id" name="id" />

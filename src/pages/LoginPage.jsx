@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { getLoginDetailswithUser } from '../Action/Data';
 import { Cookies } from 'react-cookie';
+// import { GoogleLogin, googleLogout } from '@react-oauth/google';
+import googleIcon from '../assets/google.png'
+import { useAuth0 } from '@auth0/auth0-react';
 
 
 const Login = () => {
@@ -15,6 +18,8 @@ const Login = () => {
   const [expiresInMins] = useState(30);
   const loginedUser = useSelector((state) => state.GetLoginwithUserReducer.loginWithUser);
   const cookie = new Cookies();
+  const { loginWithRedirect } = useAuth0();
+
   //Registeration Data on Login Page
   const loginDetails = JSON.parse(localStorage.getItem('loginInfo'));
   // console.log("Login Details on login Page", loginDetails);
@@ -46,7 +51,7 @@ const Login = () => {
     //   return setMessage("☒ Enter valid username and password")
     // }
     else { MessagePass() }
-    
+
   }
 
 
@@ -74,11 +79,9 @@ const Login = () => {
     // console.log("Login Data", loginData, "Login API from user", loginData);
   };
 
-
-
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100">
-      <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-md">
+      <div className="max-w-md h-fit w-full p-4 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
         <form onSubmit={handleSubmit} >
           <input type="text" name="expiresInMins" id="expiresInMins" value={loginData?.expiresInMins} className='hidden' />
@@ -125,6 +128,40 @@ const Login = () => {
             </Link>
           </div>
         </form>
+        <div className='flex pb-2 '>
+          <div className='w-full px-4 mt-3'><div className=' border-b-2 border-gray-300' /></div>
+          <div>Or</div>
+          <div className='w-full px-4 mt-3'><div className=' border-b-2 border-gray-300' /></div>
+        </div>
+
+        <div className='w-full flex flex-col justify-center h-8 gap-4'>
+          <button className='h-full flex items-center gap-2 px-3 font-medium bg-transparent border border-black' onClick={() => loginWithRedirect()}>
+            <img src={googleIcon} alt='Google Icon' className='h-[18px] flex items-center' />
+            <p className='h-full flex items-center'>Sign in with Google using OAuth</p>
+          </button>
+        </div>
+
+{/* 
+        <div className='mt-2 w-full'>
+          <GoogleLogin
+            onSuccess={(credentialResponse) => {
+              console.log("Data from Google",credentialResponse);
+              // navigate({
+              //   pathname: "/",
+              //   state: { credentialResponse: credentialResponse }
+              // }
+              // )
+            }}
+            onError={() => {
+              console.log('Login Failed');
+            }}
+          />
+        </div> */}
+        {/* <button className='h-fit mt-2 flex items-center gap-2 px-3 font-medium bg-transparent border border-black py-1' onClick={(e) => googleLogout()}>
+          <img src={googleIcon} alt='Google Icon' className='h-[18px] flex items-center' />
+          <div className="" >Logout Google</div>
+        </button> */}
+
         {message == "🗹 Data Passed" &&
           <div className='font-medium text-xl py-4 px-2 overflow-hidden duration-200'>
             <div>Username: {loginData?.username}</div>

@@ -9,7 +9,6 @@ import {
 } from "../reducer/DummyReducer";
 import cartReducer from "../reducer/cartSlice";
 
-
 const rootReducer = combineReducers({
     //Products
     GetAllCategoriesReducer: GetAllCategoriesReducer,
